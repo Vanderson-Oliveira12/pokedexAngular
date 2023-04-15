@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class NavComponent {
 
+  showMenuMobile: boolean = false;
+
+
+  handleMenuMobile(){
+    this.showMenuMobile = !this.showMenuMobile;
+  }
+
 }

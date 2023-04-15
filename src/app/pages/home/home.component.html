@@ -12,7 +12,16 @@
       </a>
     </div>
     <div class="header-hero">
-      <img src="../../../assets/hero.svg" alt="Imagem Pikachu" />
+      <picture>
+        <source srcset="../../../assets/hero_mobile.svg" media="(max-width: 768px)">
+        <source srcset="../../../assets/hero.svg" media="(min-width: 769px)">
+        <img srcset="../../../assets/hero.svg" alt="imagem Pikachu">
+      </picture>
     </div>
   </main>
+  <footer class="header-footer">
+    <p>
+      <strong>Pokémon &copy; {{ currentYear }}</strong>
+    </p>
+  </footer>
 </header>

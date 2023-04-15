@@ -1,28 +1,87 @@
+@use "../../scss/medias.scss";
+
 header {
   height: 100%;
   width: 100%;
   background: linear-gradient(180deg, #f5db13 0%, #f2b807 100%);
+
+  @include medias.small {
+    height: auto;
+    padding-bottom: 2rem;
+  }
 }
 
 .header-container {
   height: 80%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  @include medias.small {
+    flex-direction: column-reverse;
+  }
 }
 
 .header-content {
   padding-left: 6rem;
-  max-width: 1280px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6.4rem;
+
+  h2 {
+    font-size: 1.8rem;
+    line-height: 150%;
+  }
+
+  @include medias.small {
+    & {
+      padding-left: 0rem;
+      gap: 1.4rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      width: 90%;
+      max-width: 260px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      padding-bottom: 2.2rem;
+      width: 90%;
+    }
+  }
 }
 
 .header-hero {
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   width: 80%;
+  overflow: hidden;
+
+  img {
+    width: 85%;
+    max-width: 500px;
+  }
+
+  @include medias.small {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 2.2rem;
+
+    img {
+      width: 80%;
+      margin: 0 auto;
+    }
+  }
 }
 
 .header-content-button {
@@ -31,11 +90,28 @@ header {
   background: #73d677;
   box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.18);
   border-radius: 11px;
-  padding: 2.2rem;
+  padding: 2rem 2.2rem;
+  padding-top: 1.8rem;
   font-weight: 700;
   transition: 0.5s ease;
 
   &:hover {
     opacity: 0.9;
   }
+
+  @include medias.small {
+    margin-bottom: 2.2rem;
+    font-size: 1.4rem;
+  }
+}
+
+.header-footer {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-top: 1rem;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  width: 80%;
+  margin: 0 auto;
+  font-size: 1.2rem;
 }

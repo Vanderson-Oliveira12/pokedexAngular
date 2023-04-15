@@ -3,7 +3,11 @@
     <a href="#">
       <img class="logo" src="../../../assets/Logo.svg" alt="Logo Pokémon" />
     </a>
-    <ul class="nav-links">
+    <div (click)="handleMenuMobile()" class="menu-burguer">
+      <img src="../../../assets/menu.svg"/>
+    </div>
+    <ul [ngClass]="{active: showMenuMobile}" class="nav-links">
+      <li (click)="showMenuMobile = false" class="menu-burguer-close">&times;</li>
       <li class="nav-link">
         <a title="Início" href="#">Início</a>
       </li>
