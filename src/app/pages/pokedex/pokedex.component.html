@@ -1,0 +1,58 @@
+<app-nav></app-nav>
+<main>
+  <section class="container-pokemon">
+    <div class="container-pokemon-search">
+      <h1 class="title-main">
+        800 <strong>pokémons</strong> para você escolher o seu preferido.
+      </h1>
+      <input
+        class="input-search"
+        type="text"
+        placeholder="Pesquisar pokémon..."
+      />
+      <div class="container-search-filter">
+        <div class="filter-item">
+          <p>Tipo</p>
+          <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
+        </div>
+        <div class="filter-item">
+          <p>Tipo</p>
+          <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
+        </div>
+        <div class="filter-item">
+          <p>Tipo</p>
+          <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
+        </div>
+
+      </div>
+      <div class="container-all-pokemons">
+        <div class="container-pokemon-item" *ngFor="let pokemon of listPokemons">
+          <div class="pokemon-infor">
+            <p>
+              <strong>
+                {{pokemon.name}}
+              </strong>
+            </p>
+            <div class="pokemon-status-all">
+              <div class="pokemon-status">
+                <p>50</p>
+                <p>50</p>
+              </div>
+              <div class="pokemon-status">
+                <p>Defesa</p>
+                <p>Ataque</p>
+              </div>
+              <div class="pokemon-type">
+                <p>Planta</p>
+                <p>Veneno</p>
+              </div>
+            </div>
+          </div>
+          <div class="pokemon-img">
+            <h2>Imagem aqui</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

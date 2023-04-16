@@ -1,4 +1,4 @@
-<nav class="nav">
+<nav class="nav" [ngClass]="{bg_color: pokedexRouting.isActive}">
   <div class="nav-container">
     <a href="#">
       <img class="logo" src="../../../assets/Logo.svg" alt="Logo Pokémon" />
@@ -12,7 +12,7 @@
         <a title="Início" href="#">Início</a>
       </li>
       <li class="nav-link">
-        <a title="Pokedéx" href="#">Pokedéx</a>
+        <a title="Pokedéx" routerLinkActive #pokedexRouting="routerLinkActive" routerLink="/pokedex">Pokedéx</a>
       </li>
       <li class="nav-link">
         <a title="Lendários" href="#">Lendários</a>
