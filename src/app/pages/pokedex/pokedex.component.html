@@ -43,13 +43,13 @@
                 <p>Ataque</p>
               </div>
               <div class="pokemon-type">
-                <p>Planta</p>
-                <p>Veneno</p>
+                <p>{{pokemon?.status?.types[0]?.type?.name}}</p>
+                <p *ngIf="pokemon?.status?.types[1]?.type?.name">{{pokemon?.status?.types[1]?.type?.name}}</p>
               </div>
             </div>
           </div>
           <div class="pokemon-img">
-            <h2>Imagem aqui</h2>
+            <img [src]="pokemon?.status?.sprites?.other.dream_world?.front_default" [alt]="pokemon.name"/>
           </div>
         </div>
       </div>

@@ -8,18 +8,23 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
 })
 export class PokedexComponent implements OnInit {
 
+
   listPokemons: any[] = [];
+  constructor(private pokeApiService: PokeApiService){}
+
 
   ngOnInit(): void {
-    this.getPokemonsService()
+    this.getPokemonsService();
   }
 
-  constructor(private pokeApiService: PokeApiService){}
 
   getPokemonsService(){
     this.pokeApiService.getPokemons().subscribe(res => {
       let results = res.results;
       this.listPokemons = results;
+
+      console.log(this.listPokemons)
+
     })
   }
 }
