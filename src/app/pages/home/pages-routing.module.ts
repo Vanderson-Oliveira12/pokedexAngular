@@ -5,7 +5,7 @@ import { PokedexComponent } from '../pokedex/pokedex.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
-  {path: "pokedex", component: PokedexComponent}
+  {path: "pokedex", component: PokedexComponent},
 ];
 
 @NgModule({

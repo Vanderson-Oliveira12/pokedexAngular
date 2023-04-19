@@ -5,28 +5,29 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
 @Component({
   selector: 'app-pokedex',
   templateUrl: './pokedex.component.html',
-  styleUrls: ['./pokedex.component.scss']
+  styleUrls: ['./pokedex.component.scss'],
 })
 export class PokedexComponent implements OnInit {
-
-  inputValue: string = "";
+  inputValue: string = '';
   isLoading: boolean = true;
+  isLoadingModal: boolean = true;
   listPokemons: any[] = [];
   listPokemonsFiltered: any[] = [];
   listPokemonsAll: any[] = [];
-  constructor(private pokeApiService: PokeApiService){}
+  pokemonSelected: any = { color: '' };
 
+  constructor(private pokeApiService: PokeApiService) {}
+
+  isModalOpen: boolean = false;
 
   ngOnInit(): void {
     this.getPokemonsService();
   }
 
-
-  getPokemonsService(){
-
+  getPokemonsService() {
     const pokemon = this.pokeApiService.getPokemons();
 
-    forkJoin([pokemon]).subscribe(res => {
+    forkJoin([pokemon]).subscribe((res) => {
       let results = res[0].results;
       this.listPokemons = results;
       this.listPokemonsFiltered = results;
@@ -34,23 +35,35 @@ export class PokedexComponent implements OnInit {
 
       setTimeout(() => {
         this.isLoading = false;
-      }, 1000)
-    })
+      }, 1000);
+    });
   }
 
-  filterPokemonPerName(){
-    if(this.inputValue !== ""){
-      this.listPokemonsFiltered = this.listPokemonsAll.filter(pokemon => {
+  closeModalContainer() {
+    this.isModalOpen = false;
+  }
+
+  openDetailsPokemon(e: any) {
+    const idPokemon = String(e.status.id);
+    this.isModalOpen = true;
+    this.pokeApiService.getPokemonInfor(idPokemon).subscribe((pokemon) => {
+      this.isLoadingModal = false;
+      this.pokemonSelected = pokemon;
+      console.log(this.pokemonSelected);
+    });
+  }
+
+  filterPokemonPerName() {
+    if (this.inputValue !== '') {
+      this.listPokemonsFiltered = this.listPokemonsAll.filter((pokemon) => {
         let inputFormat = this.inputValue.toLocaleLowerCase();
 
-        return pokemon.name.includes(inputFormat)
-      })
+        return pokemon.name.includes(inputFormat);
+      });
 
       this.listPokemons = this.listPokemonsFiltered;
     } else {
-      this.listPokemons = this.listPokemonsAll
+      this.listPokemons = this.listPokemonsAll;
     }
-
-
   }
 }
