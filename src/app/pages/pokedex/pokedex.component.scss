@@ -9,12 +9,14 @@ main {
     width: 80%;
     max-width: 1280px;
     margin: 0 auto;
+    height: 100%;
   }
 
   .container-pokemon-search{
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
+    height: 100%;
   }
 
   .title-main {
@@ -70,21 +72,35 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 2.6rem;
+
+    height: 100%;
   }
 
   .container-pokemon-item{
+    width: 28rem;
+    height: 22rem;
     background: #f9f9f9;
     display: flex;
     padding: 0 2.4rem;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    min-height: 18rem;
+    transition: .5s ease;
+    cursor: pointer;
+
+      &:hover{
+        transform: scale(1.05);
+      }
   }
 
   .pokemon-infor{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    width: 50%;
+
+    > p {
+      text-transform: capitalize;
+    }
   }
 
   .pokemon-status-all{
@@ -107,9 +123,85 @@ main {
   }
 
   .pokemon-img{
-    width: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50%;
+
+      img{
+        max-width: 8rem;
+      }
+  }
+}
+
+.no-results{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3.2rem;
+  font-weight: 500;
+
+    img{
+      width: 100px;
+    }
+}
+$size: 50px;
+
+ .u-bounce {
+  animation: bounce 1000ms infinite alternate-reverse;
+  //animation-timing-function: cubic-bezier(0,1.28,0,1.27);
+}
+
+.o-pokeball {
+  width: $size;
+  height: $size;
+  border-radius: $size;
+  border: solid ($size/25) black;
+  position: relative;
+  background: linear-gradient(to bottom, #EEEEEE 0%,#FFFFFF 100%);;
+  margin: 10px auto;
+
+  &:before,
+  &:after{
+    content: "";
+    display: block;
+  }
+
+  &,
+  &:before,
+  &:after{
+    transition: all 600ms cubic-bezier(.67,.4,.36,.75);
+  }
+
+  &:before {
+    width: $size;
+    height: ($size/2) -($size/25/2);
+    border-bottom: solid ($size/25) black;
+    border-radius: ($size/2) ($size/2) 0 0;
+    background: linear-gradient(to bottom, #d10000 0%,#ff0000 50%);
+  }
+
+  &:after {
+    content: "";
+    width: $size/5;
+    height: $size/5;
+    background: linear-gradient(to bottom, #fff 0%,#ccc 100%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 ($size/50) black,
+                0 0 0 ($size/25) #ddd,
+                0 0 0 ($size/14) black,
+                0 0 ($size/10) ($size/17) rgba(0,0,0,0.4);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(100px);
   }
 }

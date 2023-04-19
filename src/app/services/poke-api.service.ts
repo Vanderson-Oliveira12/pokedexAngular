@@ -7,7 +7,7 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class PokeApiService {
-  private api: string = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`;
+  private api: string = `https://pokeapi.co/api/v2/pokemon?offset=0&limit=151`;
 
   /*  */
 
@@ -26,6 +26,6 @@ export class PokeApiService {
   }
 
   getPokemonInfor(namePokemon: string): Observable<any>{
-    return this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${namePokemon}`)
+    return this.http.get<any>(`https://pokeapi.co/api/v2/pokemon-species/${namePokemon}/`)
   }
 }

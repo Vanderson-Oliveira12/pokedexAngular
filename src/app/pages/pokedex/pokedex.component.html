@@ -9,6 +9,8 @@
         class="input-search"
         type="text"
         placeholder="Pesquisar pokémon..."
+        [(ngModel)]="inputValue"
+        (keyup)="filterPokemonPerName()"
       />
       <div class="container-search-filter">
         <div class="filter-item">
@@ -23,34 +25,53 @@
           <p>Tipo</p>
           <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
         </div>
-
       </div>
       <div class="container-all-pokemons">
-        <div class="container-pokemon-item" *ngFor="let pokemon of listPokemons">
-          <div class="pokemon-infor">
-            <p>
-              <strong>
-                {{pokemon.name}}
-              </strong>
-            </p>
-            <div class="pokemon-status-all">
-              <div class="pokemon-status">
-                <p>50</p>
-                <p>50</p>
-              </div>
-              <div class="pokemon-status">
-                <p>Defesa</p>
-                <p>Ataque</p>
-              </div>
-              <div class="pokemon-type">
-                <p>{{pokemon?.status?.types[0]?.type?.name}}</p>
-                <p *ngIf="pokemon?.status?.types[1]?.type?.name">{{pokemon?.status?.types[1]?.type?.name}}</p>
+        <div
+          *ngIf="isLoading; else loadingSucess"
+          class="o-pokeball u-bounce"
+        ></div>
+        <ng-template #loadingSucess>
+          <div
+            class="container-pokemon-item"
+            *ngFor="let pokemon of listPokemons"
+          >
+            <div class="pokemon-infor">
+              <p>
+                <strong>
+                  {{ pokemon.name }}
+                </strong>
+              </p>
+              <div class="pokemon-status-all">
+                <div class="pokemon-status">
+                  <p>50</p>
+                  <p>50</p>
+                </div>
+                <div class="pokemon-status">
+                  <p>Defesa</p>
+                  <p>Ataque</p>
+                </div>
+                <div class="pokemon-type">
+                  <p>{{ pokemon?.status?.types[0]?.type.name }}</p>
+                  <p *ngIf="pokemon?.status?.types[1]?.type?.name">
+                    {{ pokemon.status.types[1].type.name }}
+                  </p>
+                </div>
               </div>
             </div>
+            <div class="pokemon-img">
+              <img
+                [src]="
+                  pokemon?.status?.sprites?.other?.dream_world?.front_default
+                "
+                [alt]="pokemon.name"
+              />
+            </div>
           </div>
-          <div class="pokemon-img">
-            <img [src]="pokemon?.status?.sprites?.other.dream_world?.front_default" [alt]="pokemon.name"/>
-          </div>
+        </ng-template>
+        <div *ngIf="!isLoading && listPokemons.length === 0" class="no-results">
+          <h3>Oops... parece que pesquisa não retornou resultados!</h3>
+          <img src="../../../assets/no results.png" alt="Sem resultados!"/>
         </div>
       </div>
     </div>
