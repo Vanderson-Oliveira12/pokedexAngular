@@ -33,6 +33,7 @@ export class PokedexComponent implements OnInit {
       this.listPokemonsFiltered = results;
       this.listPokemonsAll = results;
 
+
       setTimeout(() => {
         this.isLoading = false;
       }, 1000);
@@ -65,5 +66,41 @@ export class PokedexComponent implements OnInit {
     } else {
       this.listPokemons = this.listPokemonsAll;
     }
+  }
+
+  typePokemonConvertToPortugues(typePokemon: string): string{
+    let typeIng = typePokemon;
+
+      if(typePokemon == "grass"){
+         return typeIng = "Planta";
+      } else if(typePokemon == "poison"){
+        return typeIng = "Veneno";
+      } else if(typePokemon == "fire"){
+        return typeIng = "Fogo";
+      } else if(typePokemon == "water"){
+        return typeIng = "Água";
+      } else if(typePokemon == "bug"){
+        return typeIng = "Inseto";
+      } else if(typePokemon == "flying"){
+        return typeIng = "Voador";
+      } else if(typePokemon == "normal"){
+        return typeIng = "Normal";
+      } else if(typePokemon == "electric"){
+        return typeIng = "Elétrico";
+      } else if(typePokemon == "ground"){
+        return typeIng = "Terra";
+      } else if(typePokemon == "fairy"){
+        return typeIng = "Fada";
+      } else if(typePokemon == "fairy"){
+        return typeIng = "Fada";
+      } else if(typePokemon == "fighting"){
+        return typeIng = "Lutador";
+      } else if(typePokemon == "psychic"){
+        return typeIng = "Psiquico";
+      } else if(typePokemon == "fighting"){
+        return typeIng = "Lutador";
+      }
+
+      return "";
   }
 }
