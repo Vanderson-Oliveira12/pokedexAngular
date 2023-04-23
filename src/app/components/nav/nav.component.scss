@@ -16,10 +16,26 @@
       width: 90%;
     }
 
+    @include medias.small-medium{
+      width: 90%;
+    }
+
+    @include medias.medium{
+      width: 90%;
+    }
+
   .logo{
     width: 120px;
 
     @include medias.small{
+      width: 80px;
+    }
+
+    @include medias.small-medium{
+      width: 80px;
+    }
+
+    @include medias.medium{
       width: 80px;
     }
   }
@@ -34,6 +50,7 @@
   .nav-links {
     display: flex;
     position: relative;
+    align-items: center;
     gap: 1.2rem;
 
     @include medias.small{
@@ -53,6 +70,25 @@
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       transition: .5s ease;
     }
+
+    @include medias.small-medium{
+      font-size: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3.2rem;
+      width: 70%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      right: -100%;
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      transition: .5s ease;
+    }
+
   }
 
   .nav-links.active{
@@ -100,8 +136,24 @@
 }
 
 
+.nav-link-button-theme{
+  border: none;
+  background-color: transparent;
+  padding: .6rem;
+}
+
 /* bgColor */
 
 .bg_color{
   background: linear-gradient(180deg, #f5db13 0%, #f2b807 100%);
 }
+
+.bg_color_dark{
+  background-color: #282828;
+}
+
+.color-dark{
+  color: #908d96;
+}
+
+

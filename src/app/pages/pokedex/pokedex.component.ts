@@ -19,6 +19,7 @@ export class PokedexComponent implements OnInit {
   constructor(private pokeApiService: PokeApiService) {}
 
   isModalOpen: boolean = false;
+  isDarkTheme: boolean = false;
 
   ngOnInit(): void {
     this.getPokemonsService();
@@ -69,7 +70,7 @@ export class PokedexComponent implements OnInit {
   }
 
   typePokemonConvertToPortugues(typePokemon: string): string{
-    let typeIng = typePokemon;
+    let typeIng = "";
 
       if(typePokemon == "grass"){
          return typeIng = "Planta";
@@ -97,10 +98,19 @@ export class PokedexComponent implements OnInit {
         return typeIng = "Lutador";
       } else if(typePokemon == "psychic"){
         return typeIng = "Psiquico";
-      } else if(typePokemon == "fighting"){
-        return typeIng = "Lutador";
+      } else if(typePokemon == "rock"){
+        return typeIng = "Pedra";
+      } else if(typePokemon == "steel"){
+        return typeIng = "Metal";
+      } else if(typePokemon == "ice"){
+        return typeIng = "Gelo";
+      } else if(typePokemon == "ghost"){
+        return typeIng = "Fantasma";
       }
-
       return "";
+  }
+
+  setDarkTheme(e: boolean){
+    this.isDarkTheme = e;
   }
 }

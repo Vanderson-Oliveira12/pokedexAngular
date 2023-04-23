@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -9,9 +9,18 @@ export class NavComponent {
 
   showMenuMobile: boolean = false;
 
+  @Input() isDarkTheme!: boolean;
+  @Output() setDarkTheme = new EventEmitter();
+
 
   handleMenuMobile(){
     this.showMenuMobile = !this.showMenuMobile;
+  }
+
+  changeModeTheme(){
+    let changeTheme = this.isDarkTheme = !this.isDarkTheme;
+    this.setDarkTheme.emit(changeTheme);
+    this.showMenuMobile = false;
   }
 
 }

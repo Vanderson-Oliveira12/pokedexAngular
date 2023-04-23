@@ -1,5 +1,5 @@
-<app-nav></app-nav>
-<main>
+<app-nav (setDarkTheme)="setDarkTheme($event)" [isDarkTheme]="isDarkTheme"></app-nav>
+<main class="container " [ngClass]="{'bg-color-dark': isDarkTheme}">
   <section class="container-pokemon">
     <div class="container-pokemon-search">
       <h1 class="title-main">
@@ -7,21 +7,22 @@
       </h1>
       <input
         class="input-search"
+        [ngClass]="{'input-search-dark': isDarkTheme}"
         type="text"
         placeholder="Pesquisar pokémon..."
         [(ngModel)]="inputValue"
         (keyup)="filterPokemonPerName()"
       />
       <div class="container-search-filter">
-        <div class="filter-item">
+        <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
           <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
         </div>
-        <div class="filter-item">
+        <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
           <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
         </div>
-        <div class="filter-item">
+        <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
           <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
         </div>
@@ -34,6 +35,7 @@
         <ng-template #loadingSucess>
           <div
             class="container-pokemon-item"
+            [ngClass]="{'bg-card-color': isDarkTheme}"
             *ngFor="let pokemon of listPokemons"
             (click)="openDetailsPokemon(pokemon)"
           >
@@ -45,8 +47,8 @@
               </p>
               <div class="pokemon-status-all">
                 <div class="pokemon-status">
-                    <p class="pokemon-status-semi-circle">{{pokemon.status.stats[1].base_stat}}</p>
-                    <p class="pokemon-status-semi-circle">{{pokemon.status.stats[2].base_stat}}</p>
+                    <p class="pokemon-status-semi-circle" [ngClass]="{'semi-circle-theme': isDarkTheme}">{{pokemon.status.stats[1].base_stat}}</p>
+                    <p class="pokemon-status-semi-circle" [ngClass]="{'semi-circle-theme': isDarkTheme}">{{pokemon.status.stats[2].base_stat}}</p>
                 </div>
                 <div class="pokemon-status">
                   <p>Defesa</p>

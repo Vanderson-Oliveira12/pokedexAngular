@@ -1,24 +1,23 @@
-<nav class="nav" [ngClass]="{bg_color: pokedexRouting.isActive}">
+<nav class="nav" [ngClass]="{'bg_color': !isDarkTheme && pokedexRouting.isActive, 'bg_color_dark': isDarkTheme}"> <!-- [ngClass]="{bg_color: pokedexRouting.isActive}" -->
   <div class="nav-container">
     <a href="#">
       <img class="logo" src="../../../assets/Logo.svg" alt="Logo Pokémon" />
     </a>
     <div (click)="handleMenuMobile()" class="menu-burguer">
-      <img src="../../../assets/menu.svg"/>
+      <img alt="Menu mobile" src="{{isDarkTheme ? '../../../../../assets/menu-line.png' : '../../../assets/menu.svg'}}" />
     </div>
     <ul [ngClass]="{active: showMenuMobile}" class="nav-links">
       <li (click)="showMenuMobile = false" class="menu-burguer-close">&times;</li>
       <li class="nav-link">
-        <a title="Início" href="#">Início</a>
+        <a [ngClass]="{'color-dark': isDarkTheme}" title="Início" routerLink="/">Início</a>
       </li>
       <li class="nav-link">
-        <a title="Pokedéx" routerLinkActive #pokedexRouting="routerLinkActive" routerLink="/pokedex">Pokedéx</a>
-      </li>
-      <li class="nav-link">
-        <a title="Lendários" href="#">Lendários</a>
+        <a [ngClass]="{'color-dark': isDarkTheme}" title="Pokedéx" routerLinkActive #pokedexRouting="routerLinkActive" routerLink="/pokedex">Pokedéx</a>
       </li>
       <li *ngIf="pokedexRouting.isActive" class="nav-link">
-          <img src="../../../assets/sunny.png" alt="Modo Dark theme"/>
+        <button class="nav-link-button-theme" (click)="changeModeTheme()">
+          <img  src="{{isDarkTheme ? '../../../assets/moon.svg' :'../../../assets/sunny.svg'}}" alt="Modo Dark theme"/>
+        </button>
       </li>
     </ul>
   </div>

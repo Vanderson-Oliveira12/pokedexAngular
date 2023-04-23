@@ -1,9 +1,10 @@
 main {
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 7.3rem;
+  padding-bottom: 4rem;
 
   .container-pokemon{
     width: 80%;
@@ -272,5 +273,35 @@ $size: 50px;
 @keyframes bounce {
   from {
     transform: translateY(100px);
+  }
+}
+
+/* Dark theme */
+
+
+
+.container-all-pokemons .bg-card-color{
+  background-color: #282828;
+  color: #908d96;
+}
+
+.bg-color-dark{
+  background-color:  #161616;
+  color: #908d96;
+}
+
+main{
+
+  .filter-item-dark{
+    background-color: #282828;
+  }
+
+  .input-search-dark{
+    background-color: #282828;
+    color: #908d96;
+  }
+
+  .container-all-pokemons .semi-circle-theme{
+    border: 3px solid #908d96;
   }
 }
