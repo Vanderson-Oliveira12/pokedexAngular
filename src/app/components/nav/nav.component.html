@@ -1,6 +1,6 @@
 <nav class="nav" [ngClass]="{'bg_color': !isDarkTheme && pokedexRouting.isActive, 'bg_color_dark': isDarkTheme}"> <!-- [ngClass]="{bg_color: pokedexRouting.isActive}" -->
   <div class="nav-container">
-    <a href="#">
+    <a routerLink="/">
       <img class="logo" src="../../../assets/Logo.svg" alt="Logo Pokémon" />
     </a>
     <div (click)="handleMenuMobile()" class="menu-burguer">

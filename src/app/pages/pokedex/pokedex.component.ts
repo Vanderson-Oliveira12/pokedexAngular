@@ -23,6 +23,15 @@ export class PokedexComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPokemonsService();
+    let themeStorage: any = localStorage.getItem("isDarkTheme");
+
+    if(themeStorage == "false"){
+      themeStorage = false
+      this.isDarkTheme = themeStorage;
+    } else {
+      themeStorage = true
+      this.isDarkTheme = themeStorage;
+    }
   }
 
   getPokemonsService() {
@@ -112,5 +121,6 @@ export class PokedexComponent implements OnInit {
 
   setDarkTheme(e: boolean){
     this.isDarkTheme = e;
+    localStorage.setItem("isDarkTheme", String(this.isDarkTheme))
   }
 }

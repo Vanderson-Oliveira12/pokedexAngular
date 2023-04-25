@@ -3,7 +3,7 @@
   <section class="container-pokemon">
     <div class="container-pokemon-search">
       <h1 class="title-main">
-        {{listPokemons.length}} <strong>pokémons</strong> para você escolher o seu preferido.
+        {{listPokemonsAll.length}} <strong>pokémons</strong> para você escolher o seu preferido.
       </h1>
       <input
         class="input-search"
@@ -27,7 +27,7 @@
           <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
         </div>
       </div>
-      <div class="container-all-pokemons">
+      <div class="container-all-pokemons" [ngClass]="{'alignPokes': listPokemons.length <= 2}">
         <div
           *ngIf="isLoading; else loadingSucess"
           class="o-pokeball u-bounce"

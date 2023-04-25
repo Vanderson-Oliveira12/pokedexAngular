@@ -75,12 +75,13 @@ main {
     flex-wrap: wrap;
     gap: 2.6rem;
     height: 100%;
-    margin: 0 auto;
+    justify-content: center;
   }
 
   .container-pokemon-item{
-    flex: 1 0 24%;
+    flex: 0 0 24%;
     height: 22rem;
+    min-width: 300px;
     background: #f9f9f9;
     display: flex;
     padding: 0 2.4rem;
@@ -93,6 +94,10 @@ main {
       &:hover{
         transform: scale(1.05);
       }
+  }
+
+  .container-all-pokemons .container-pokemon-item:last-child{
+    align-self: flex-start;
   }
 
   .pokemon-infor{
