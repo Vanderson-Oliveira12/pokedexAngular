@@ -21,6 +21,15 @@ export class PokeApiService {
             pokemon.status = status;
           })
         })
+      }),
+      tap((res) => {
+        res.results.map((pokemon: any) => {
+          this.http.get(pokemon.url).subscribe((details: any) => {
+            this.http.get(details?.species.url).subscribe(species => {
+              pokemon.species = species;
+            })
+          })
+        })
       })
     )
   }

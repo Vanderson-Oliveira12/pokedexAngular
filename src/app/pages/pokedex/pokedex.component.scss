@@ -90,6 +90,7 @@ main {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     transition: .5s ease;
     cursor: pointer;
+    position: relative;
 
       &:hover{
         transform: scale(1.05);
@@ -101,6 +102,7 @@ main {
   }
 
   .pokemon-infor{
+    z-index: 5;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -143,6 +145,7 @@ main {
   }
 
   .pokemon-img{
+    z-index: 5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,6 +204,16 @@ main {
       font-size: 2.8rem;
       cursor: pointer;
     }
+}
+
+.pokemon-background-color{
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 80%;
+  border-radius: 0px 8px 8px 0px;
 }
 
 .pokemons-details-modal.active{

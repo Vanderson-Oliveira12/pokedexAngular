@@ -43,6 +43,7 @@ export class PokedexComponent implements OnInit {
       this.listPokemonsFiltered = results;
       this.listPokemonsAll = results;
 
+      console.log(results)
 
       setTimeout(() => {
         this.isLoading = false;

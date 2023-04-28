@@ -16,11 +16,11 @@
       <div class="container-search-filter">
         <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
-          <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
+          <img class="arrow" src="assets/arrow-down-s-fill.svg" />
         </div>
         <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
-          <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
+          <img class="arrow" src="assets/arrow-down-s-fill.svg" />
         </div>
         <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
@@ -39,6 +39,7 @@
             *ngFor="let pokemon of listPokemons"
             (click)="openDetailsPokemon(pokemon)"
           >
+            <div [style]="{'background-color': pokemon?.species?.color?.name, 'opacity': '0.7'}" class="pokemon-background-color"></div>
             <div class="pokemon-infor">
               <p>
                 <strong>
@@ -72,7 +73,7 @@
         </ng-template>
         <div *ngIf="!isLoading && listPokemons.length === 0" class="no-results">
           <h3>Oops... parece que pesquisa não retornou resultados!</h3>
-          <img src="../../../assets/no results.png" alt="Sem resultados!" />
+          <img src="assets/no results.png" alt="Sem resultados!" />
         </div>
       </div>
     </div>
