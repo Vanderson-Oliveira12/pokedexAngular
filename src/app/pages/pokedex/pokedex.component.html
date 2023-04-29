@@ -18,13 +18,76 @@
           <p>Tipo</p>
           <img class="arrow" src="assets/arrow-down-s-fill.svg" />
         </div>
-        <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
-          <p>Tipo</p>
-          <img class="arrow" src="assets/arrow-down-s-fill.svg" />
-        </div>
-        <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
-          <p>Tipo</p>
-          <img class="arrow" src="../../../assets/arrow-down-s-fill.svg" />
+        <div class="filter-item-list">
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Planta</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Fogo</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Água</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Inseto</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Voador</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Normal</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Elétrico</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Terra</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Fada</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Lutador</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Psiquico</p>
+          </div>
+
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Psiquico</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Pedra</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Metal</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Fantasma</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Gelo</p>
+          </div>
+          <div class="filter-item-checkbox">
+            <input type="checkbox" name="" id="">
+            <p>Dragão</p>
+          </div>
         </div>
       </div>
       <div class="container-all-pokemons" [ngClass]="{'alignPokes': listPokemons.length <= 2}">
@@ -39,7 +102,6 @@
             *ngFor="let pokemon of listPokemons"
             (click)="openDetailsPokemon(pokemon)"
           >
-            <div [style]="{'background-color': pokemon?.species?.color?.name, 'opacity': '0.7'}" class="pokemon-background-color"></div>
             <div class="pokemon-infor">
               <p>
                 <strong>
@@ -56,8 +118,8 @@
                   <p>Ataque</p>
                 </div>
                 <div class="pokemon-type">
-                  <p>{{typePokemonConvertToPortugues(pokemon?.status?.types[0]?.type.name)}}</p>
-                  <p *ngIf="pokemon?.status?.types[1]?.type?.name">
+                  <p [style]="{'background': convertColorBackground(pokemon?.status?.types[0]?.type.name)}">{{typePokemonConvertToPortugues(pokemon?.status?.types[0]?.type.name) || "Não definido"}} </p>
+                  <p [style]="{'background': convertColorBackground(pokemon.status.types[1].type.name)}" *ngIf="pokemon?.status?.types[1]?.type?.name">
                     {{typePokemonConvertToPortugues(pokemon.status.types[1].type.name)}}
                   </p>
                 </div>
