@@ -64,8 +64,62 @@ main {
     gap: 1.6rem;
     padding: 1.2rem;
     z-index: 9;
-    background-color: #f00;
+    max-height: 0rem;
+    pointer-events: none;
+    opacity: 0;
+    overflow-y: scroll;
+    background-color: #282828;
+    font-size: 1.4rem;
+    transition: .5s ease;
   }
+
+  .filter-item-list.active{
+    max-height: 20rem;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Scroll */
+
+
+  /* Works on Chrome, Edge, and Safari */
+  .filter-item-list::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .filter-item-list::-webkit-scrollbar-track {
+    background: #282828;
+  }
+
+  .filter-item-list::-webkit-scrollbar-thumb {
+    background-color: #eee;
+    border-radius: 20px;
+    border: 3px solid #eee;
+  }
+
+  .filter-item-list-light{
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+    color: #212121;
+  }
+
+  .filter-item-list-light::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .filter-item-list-light::-webkit-scrollbar-track {
+    background: #fff;
+  }
+
+  .filter-item-list-light::-webkit-scrollbar-thumb {
+    background-color: #000;
+    border-radius: 20px;
+    border: 3px solid #000;
+  }
+
+  /* Scroll */
+
 
   .filter-item-checkbox{
     display: flex;
@@ -82,6 +136,7 @@ main {
     background: #f9f9f9;
     padding: .6rem;
     border-radius: 8px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 
   .arrow{

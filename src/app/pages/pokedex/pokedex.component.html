@@ -14,79 +14,14 @@
         (keyup)="filterPokemonPerName()"
       />
       <div class="container-search-filter">
-        <div class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
+        <div (click)="isMenuTypeOpen = !isMenuTypeOpen" class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
           <p>Tipo</p>
           <img class="arrow" src="assets/arrow-down-s-fill.svg" />
         </div>
-        <div class="filter-item-list">
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Planta</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Fogo</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Água</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Inseto</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Voador</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Normal</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Elétrico</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Terra</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Fada</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Lutador</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Psiquico</p>
-          </div>
-
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Psiquico</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Pedra</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Metal</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Fantasma</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Gelo</p>
-          </div>
-          <div class="filter-item-checkbox">
-            <input type="checkbox" name="" id="">
-            <p>Dragão</p>
+        <div class="filter-item-list" [ngClass]="{'filter-item-list-light': !isDarkTheme, 'active': isMenuTypeOpen}">
+          <div *ngFor="let type of pokemonCheckboxType" class="filter-item-checkbox">
+            <input (change)="filterPokemonCheckbox($event)" type="checkbox" name={{type}} id={{type}}>
+            <label for={{type}}>{{typePokemonConvertToPortugues(type)}}</label>
           </div>
         </div>
       </div>
