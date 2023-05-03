@@ -8,11 +8,11 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
   styleUrls: ['./pokedex.component.scss'],
 })
 export class PokedexComponent implements OnInit {
+
   inputValue: string = '';
   isLoading: boolean = true;
   isLoadingModal: boolean = true;
   listPokemons: any[] = [];
-  listPokemonsFiltered: any[] = [];
   listPokemonsAll: any[] = [];
   listPokemonFilterCheckBox: any[] = [];
   pokemonSelected: any = { color: '' };
@@ -37,6 +37,12 @@ export class PokedexComponent implements OnInit {
     'dragon',
   ];
 
+  indexPagination: number = 1;
+  paginationMin: number = 0;
+  paginationMax: number = 12;
+  resultsPagination: any[] = [];
+
+
   constructor(private pokeApiService: PokeApiService) {}
 
   isModalOpen: boolean = false;
@@ -57,17 +63,18 @@ export class PokedexComponent implements OnInit {
   }
 
   getPokemonsService() {
+    const pokemonPagination = this.pokeApiService.getPokemonsPagination(this.paginationMin, this.paginationMax);
     const pokemon = this.pokeApiService.getPokemons();
 
-    forkJoin([pokemon]).subscribe((res) => {
-      let results = res[0].results;
-      this.listPokemons = results;
-      this.listPokemonsFiltered = results;
+    forkJoin([pokemonPagination, pokemon]).subscribe((res) => {
+      let resultsPagination = res[0].results;
+      let results = res[1].results;
+      this.resultsPagination = resultsPagination;
+      this.listPokemons = resultsPagination;
       this.listPokemonsAll = results;
 
       setTimeout(() => {
         this.isLoading = false;
-        console.log(this.listPokemonsAll[0])
       }, 1000);
     });
   }
@@ -87,15 +94,14 @@ export class PokedexComponent implements OnInit {
 
   filterPokemonPerName() {
     if (this.inputValue !== '') {
-      this.listPokemonsFiltered = this.listPokemonsAll.filter((pokemon) => {
+      this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
         let inputFormat = this.inputValue.toLocaleLowerCase();
 
         return pokemon.name.includes(inputFormat);
       });
 
-      this.listPokemons = this.listPokemonsFiltered;
     } else {
-      this.listPokemons = this.listPokemonsAll;
+      this.listPokemons = this.resultsPagination;
     }
   }
 
@@ -182,8 +188,6 @@ export class PokedexComponent implements OnInit {
 
     return '';
   }
-
-  filteredPokemon: any[] = [];
 
   filterPokemonCheckbox(e: any) {
     let itemChecked = e.target.checked;
