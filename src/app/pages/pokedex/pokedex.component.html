@@ -84,5 +84,18 @@
         </ng-template>
       </div>
     </div>
+    <div *ngIf="!isLoading" class="container-pagination">
+      <button class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
+        Anterior
+        {{offSetMinPagination}}
+        {{offSetMaxPagination}}
+      </button>
+      <button class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
+        {{currentPage}}
+      </button>
+      <button (click)="nextPagination()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
+        Próximo
+      </button>
+    </div>
   </section>
 </main>

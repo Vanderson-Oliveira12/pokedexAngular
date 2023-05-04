@@ -9,6 +9,8 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
 })
 export class PokedexComponent implements OnInit {
 
+
+
   inputValue: string = '';
   isLoading: boolean = true;
   isLoadingModal: boolean = true;
@@ -38,10 +40,11 @@ export class PokedexComponent implements OnInit {
   ];
 
   indexPagination: number = 1;
-  paginationMin: number = 0;
-  paginationMax: number = 12;
   resultsPagination: any[] = [];
-
+  currentPage: number = 1;
+  totalPagePokemons: number = 1;
+  offSetMinPagination: number = 0;
+  offSetMaxPagination: number = 9;
 
   constructor(private pokeApiService: PokeApiService) {}
 
@@ -63,7 +66,7 @@ export class PokedexComponent implements OnInit {
   }
 
   getPokemonsService() {
-    const pokemonPagination = this.pokeApiService.getPokemonsPagination(this.paginationMin, this.paginationMax);
+    const pokemonPagination = this.pokeApiService.getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination);
     const pokemon = this.pokeApiService.getPokemons();
 
     forkJoin([pokemonPagination, pokemon]).subscribe((res) => {
@@ -206,5 +209,14 @@ export class PokedexComponent implements OnInit {
   setDarkTheme(e: boolean) {
     this.isDarkTheme = e;
     localStorage.setItem('isDarkTheme', String(this.isDarkTheme));
+  }
+
+  /* Pagination */
+
+  nextPagination(){
+    this.offSetMaxPagination += 9;
+    this.offSetMinPagination += 9;
+    this.currentPage += 1;
+    this.getPokemonsService();
   }
 }

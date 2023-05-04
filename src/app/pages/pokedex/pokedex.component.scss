@@ -12,6 +12,10 @@ main {
     margin: 0 auto;
     height: 100%;
     position: relative;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .container-pokemon-search{
@@ -405,4 +409,37 @@ main{
   .container-all-pokemons .semi-circle-theme{
     border: 3px solid #908d96;
   }
+}
+
+.container-pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 2.2rem 0;
+  padding-top: 3.2rem;
+
+    button{
+      padding: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: .5s ease;
+      border: none;
+
+      font-size: 1.6rem;
+
+        &:hover{
+          transform: scale(1.05);
+        }
+
+    }
+
+    .button-dark{
+      background-color: #282828;
+      color: #908d96;
+    }
+    .button-light{
+      background: linear-gradient(180deg, #f5db13 0%, #f2b807 100%);
+      color: #fff;
+    }
 }
