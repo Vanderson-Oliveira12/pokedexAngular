@@ -74,7 +74,6 @@ export class PokedexComponent implements OnInit {
       this.totalPagePokemons = Math.ceil(results.length / 6);
 
       console.log(this.totalPagePokemons)
-
       setTimeout(() => {
         this.isLoading = false;
       }, 1000);
