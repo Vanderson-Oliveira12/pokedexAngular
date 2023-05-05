@@ -44,7 +44,7 @@ export class PokedexComponent implements OnInit {
   currentPage: number = 1;
   totalPagePokemons: number = 1;
   offSetMinPagination: number = 0;
-  offSetMaxPagination: number = 9;
+  offSetMaxPagination: number = 6;
 
   constructor(private pokeApiService: PokeApiService) {}
 
@@ -53,7 +53,9 @@ export class PokedexComponent implements OnInit {
   isMenuTypeOpen: boolean = false;
 
   ngOnInit(): void {
-    this.getPokemonsService();
+    this.getAllPokemon();
+    this.getPokemonPagination();
+
     let themeStorage: any = localStorage.getItem('isDarkTheme');
 
     if (themeStorage == 'false') {
@@ -65,21 +67,18 @@ export class PokedexComponent implements OnInit {
     }
   }
 
-  getPokemonsService() {
-    const pokemonPagination = this.pokeApiService.getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination);
-    const pokemon = this.pokeApiService.getPokemons();
-
-    forkJoin([pokemonPagination, pokemon]).subscribe((res) => {
-      let resultsPagination = res[0].results;
-      let results = res[1].results;
-      this.resultsPagination = resultsPagination;
-      this.listPokemons = resultsPagination;
+  getAllPokemon(){
+    this.pokeApiService.getPokemons().subscribe(res => {
+      let results = res.results;
       this.listPokemonsAll = results;
+      this.totalPagePokemons = Math.ceil(results.length / 6);
+
+      console.log(this.totalPagePokemons)
 
       setTimeout(() => {
         this.isLoading = false;
       }, 1000);
-    });
+    })
   }
 
   closeModalContainer() {
@@ -213,10 +212,39 @@ export class PokedexComponent implements OnInit {
 
   /* Pagination */
 
+  previousPagination(){
+
+    this.inputValue = "";
+
+    if(this.currentPage == 1){
+      return;
+    }
+
+    if(this.currentPage > 1){
+      this.offSetMinPagination -= 6;
+      this.currentPage -= 1;
+      this.isLoading = true;
+      this.getPokemonPagination();
+    }
+  }
+
   nextPagination(){
-    this.offSetMaxPagination += 9;
-    this.offSetMinPagination += 9;
-    this.currentPage += 1;
-    this.getPokemonsService();
+    this.inputValue = "";
+
+    if(this.currentPage < this.totalPagePokemons){
+      this.offSetMinPagination += 6;
+      this.currentPage += 1;
+      this.isLoading = true;
+      this.getPokemonPagination();
+    }
+  }
+
+getPokemonPagination(){
+      this.pokeApiService.getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination).subscribe((res) => {
+      this.resultsPagination = res.results;
+      this.listPokemons = res.results;
+
+      setTimeout(() => this.isLoading = false, 500)
+    })
   }
 }

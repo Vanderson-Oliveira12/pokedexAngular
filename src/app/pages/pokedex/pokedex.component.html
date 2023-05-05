@@ -45,8 +45,8 @@
               </p>
               <div class="pokemon-status-all">
                 <div class="pokemon-status">
-                    <p class="pokemon-status-semi-circle" [ngClass]="{'semi-circle-theme': isDarkTheme}">{{pokemon.status.stats[1].base_stat}}</p>
-                    <p class="pokemon-status-semi-circle" [ngClass]="{'semi-circle-theme': isDarkTheme}">{{pokemon.status.stats[2].base_stat}}</p>
+                    <p class="pokemon-status-semi-circle" [ngClass]="{'semi-circle-theme': isDarkTheme}">{{pokemon.status?.stats[1].base_stat}}</p>
+                    <p class="pokemon-status-semi-circle" [ngClass]="{'semi-circle-theme': isDarkTheme}">{{pokemon.status?.stats[2].base_stat}}</p>
                 </div>
                 <div class="pokemon-status">
                   <p>Defesa</p>
@@ -84,16 +84,14 @@
         </ng-template>
       </div>
     </div>
-    <div *ngIf="!isLoading" class="container-pagination">
-      <button class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
+    <div *ngIf="!isLoading && inputValue == ''" class="container-pagination">
+      <button [class.button-desactive]="currentPage == 1" (click)="previousPagination()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
         Anterior
-        {{offSetMinPagination}}
-        {{offSetMaxPagination}}
       </button>
       <button class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
         {{currentPage}}
       </button>
-      <button (click)="nextPagination()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
+      <button [class.button-desactive]="currentPage == totalPagePokemons" (click)="nextPagination()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
         Próximo
       </button>
     </div>

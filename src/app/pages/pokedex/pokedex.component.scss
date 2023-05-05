@@ -12,7 +12,6 @@ main {
     margin: 0 auto;
     height: 100%;
     position: relative;
-    min-height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -155,6 +154,7 @@ main {
     gap: 2.6rem;
     height: 100%;
     justify-content: center;
+    min-height: 400px;
   }
 
   .container-pokemon-item{
@@ -441,5 +441,10 @@ main{
     .button-light{
       background: linear-gradient(180deg, #f5db13 0%, #f2b807 100%);
       color: #fff;
+    }
+
+    .button-desactive{
+      background: #cecece;
+      color: #161616;
     }
 }
