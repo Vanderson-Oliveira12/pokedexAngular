@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, concat, forkJoin } from 'rxjs';
+import { Subscription, Subject , debounceTime} from 'rxjs';
 import { PokeApiService } from 'src/app/services/poke-api.service';
 
 @Component({
@@ -8,14 +8,15 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
   styleUrls: ['./pokedex.component.scss'],
 })
 export class PokedexComponent implements OnInit, OnDestroy {
-
-
   unSubs: Subscription[] = [];
 
+  debounce: Subject<string> = new Subject<string>();
   inputValue: string = '';
   isLoading: boolean = true;
+  isLoadingSpinner: boolean = false;
   isLoadingModal: boolean = true;
   listPokemons: any[] = [];
+  listPokemonsPagination: any[] = [];
   listPokemonsAll: any[] = [];
   listPokemonFilterCheckBox: any[] = [];
   pokemonSelected: any = { color: '' };
@@ -53,6 +54,7 @@ export class PokedexComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAllPokemon();
+    this.getPokemonList();
 
     let themeStorage: any = localStorage.getItem('isDarkTheme');
 
@@ -66,17 +68,30 @@ export class PokedexComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unSubs.forEach(sub => sub.unsubscribe);
+    this.unSubs.forEach((sub) => sub.unsubscribe);
   }
 
-  getAllPokemon(){
-    this.pokeApiService.getPokemons().subscribe(res => {
+  getAllPokemon() {
+    this.pokeApiService.getPokemons().subscribe((res) => {
       let results = res.results;
       this.listPokemonsAll = results;
+    });
+  }
 
+  getPokemonList() {
+    this.isLoading = true;
 
-      this.isLoading = false;
-    })
+    const offSet = this.offSetMinPagination;
+    const offSetMax = this.offSetMaxPagination;
+
+    this.pokeApiService
+      .getPokemonsPagination(offSet, offSetMax)
+      .subscribe((res) => {
+        const results = res.results;
+        this.listPokemonsPagination = results;
+        this.listPokemons = results;
+        setTimeout(() => (this.isLoading = false), 1000);
+      });
   }
 
   closeModalContainer() {
@@ -86,28 +101,31 @@ export class PokedexComponent implements OnInit, OnDestroy {
   openDetailsPokemon(e: any) {
     const idPokemon = String(e.status.id);
     this.isModalOpen = true;
-    const sub = this.pokeApiService.getPokemonInfor(idPokemon).subscribe((pokemon) => {
-      this.isLoadingModal = false;
-      this.pokemonSelected = pokemon;
-    });
-
-    this.unSubs.push(sub)
-  }
-
-
-
-  filterPokemonPerName() {
-
-    if (this.inputValue !== '') {
-      this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
-        let inputFormat = this.inputValue.toLocaleLowerCase();
-
-        return pokemon.name.includes(inputFormat);
+    const sub = this.pokeApiService
+      .getPokemonInfor(idPokemon)
+      .subscribe((pokemon) => {
+        this.isLoadingModal = false;
+        this.pokemonSelected = pokemon;
       });
 
-    } else {
-      this.listPokemons = this.resultsPagination;
-    }
+    this.unSubs.push(sub);
+  }
+
+  filterPokemonPerName(e: any) {
+    const value = this.inputValue;
+
+      if (value !== '') {
+
+        this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
+          let inputFormat = value.toLocaleLowerCase();
+
+          return pokemon.name.includes(inputFormat);
+        });
+
+      } else {
+
+        this.listPokemons = this.listPokemonsPagination;
+      }
   }
 
   typePokemonConvertToPortugues(typePokemon: string): string {
@@ -201,11 +219,8 @@ export class PokedexComponent implements OnInit, OnDestroy {
     if (itemChecked) {
       this.itemsMarked = [...this.itemsMarked, itemName];
     } else {
-      this.itemsMarked = this.itemsMarked.filter(
-        (name) => name !== itemName
-      );
+      this.itemsMarked = this.itemsMarked.filter((name) => name !== itemName);
     }
-
   }
 
   setDarkTheme(e: boolean) {
@@ -213,16 +228,17 @@ export class PokedexComponent implements OnInit, OnDestroy {
     localStorage.setItem('isDarkTheme', String(this.isDarkTheme));
   }
 
-  getMorePokemon(){
+  getMorePokemon() {
+    this.isLoadingSpinner = true;
+    this.offSetMinPagination += 6;
 
-    this.offSetMinPagination += 5;
-
-    this.pokeApiService.getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination).subscribe(res => {
+    this.pokeApiService
+    .getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination)
+    .subscribe((res) => {
       const results = res.results;
+      this.listPokemons.push(...results);
+      this.isLoadingSpinner = false;
+    });
 
-     this.listPokemons.push(...results);
-
-    })
   }
-
 }

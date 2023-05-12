@@ -11,7 +11,7 @@
         type="text"
         placeholder="Pesquisar pokémon..."
         [(ngModel)]="inputValue"
-        (keyup)="filterPokemonPerName()"
+        (keyup)="filterPokemonPerName($event)"
       />
       <div class="container-search-filter">
         <div (click)="isMenuTypeOpen = !isMenuTypeOpen" class="filter-item" [ngClass]="{'filter-item-dark': isDarkTheme}">
@@ -84,9 +84,10 @@
         </ng-template>
       </div>
     </div>
-    <div class="container-pagination">
+    <div class="container-pagination" *ngIf="inputValue == ''">
       <button (click)="getMorePokemon()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
-        Carregar mais pokemons...
+        <p *ngIf="!isLoadingSpinner">Carregar mais pokemons...</p>
+        <span *ngIf="isLoadingSpinner" class="loader"></span>
       </button>
     </div>
   </section>
