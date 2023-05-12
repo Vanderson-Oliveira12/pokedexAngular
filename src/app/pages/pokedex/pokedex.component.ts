@@ -218,8 +218,19 @@ export class PokedexComponent implements OnInit, OnDestroy {
 
     if (itemChecked) {
       this.itemsMarked = [...this.itemsMarked, itemName];
+
+      this.itemsMarked.forEach(type => {
+      this.listPokemons = this.listPokemonsAll.filter(pokemon => {
+          const pokeType = pokemon.status.types[0].type.name;
+          console.log(type)
+          return pokeType == type
+        })
+      })
+
+
     } else {
       this.itemsMarked = this.itemsMarked.filter((name) => name !== itemName);
+      this.listPokemons = this.listPokemonsPagination;
     }
   }
 
