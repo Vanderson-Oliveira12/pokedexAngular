@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription, concat, forkJoin } from 'rxjs';
 import { PokeApiService } from 'src/app/services/poke-api.service';
 
 @Component({
@@ -7,9 +7,10 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
   templateUrl: './pokedex.component.html',
   styleUrls: ['./pokedex.component.scss'],
 })
-export class PokedexComponent implements OnInit {
+export class PokedexComponent implements OnInit, OnDestroy {
 
 
+  unSubs: Subscription[] = [];
 
   inputValue: string = '';
   isLoading: boolean = true;
@@ -41,8 +42,6 @@ export class PokedexComponent implements OnInit {
 
   indexPagination: number = 1;
   resultsPagination: any[] = [];
-  currentPage: number = 1;
-  totalPagePokemons: number = 1;
   offSetMinPagination: number = 0;
   offSetMaxPagination: number = 6;
 
@@ -54,7 +53,6 @@ export class PokedexComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPokemon();
-    this.getPokemonPagination();
 
     let themeStorage: any = localStorage.getItem('isDarkTheme');
 
@@ -67,16 +65,17 @@ export class PokedexComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.unSubs.forEach(sub => sub.unsubscribe);
+  }
+
   getAllPokemon(){
     this.pokeApiService.getPokemons().subscribe(res => {
       let results = res.results;
       this.listPokemonsAll = results;
-      this.totalPagePokemons = Math.ceil(results.length / 6);
 
-      console.log(this.totalPagePokemons)
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
+
+      this.isLoading = false;
     })
   }
 
@@ -87,13 +86,18 @@ export class PokedexComponent implements OnInit {
   openDetailsPokemon(e: any) {
     const idPokemon = String(e.status.id);
     this.isModalOpen = true;
-    this.pokeApiService.getPokemonInfor(idPokemon).subscribe((pokemon) => {
+    const sub = this.pokeApiService.getPokemonInfor(idPokemon).subscribe((pokemon) => {
       this.isLoadingModal = false;
       this.pokemonSelected = pokemon;
     });
+
+    this.unSubs.push(sub)
   }
 
+
+
   filterPokemonPerName() {
+
     if (this.inputValue !== '') {
       this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
         let inputFormat = this.inputValue.toLocaleLowerCase();
@@ -209,41 +213,16 @@ export class PokedexComponent implements OnInit {
     localStorage.setItem('isDarkTheme', String(this.isDarkTheme));
   }
 
-  /* Pagination */
+  getMorePokemon(){
 
-  previousPagination(){
+    this.offSetMinPagination += 5;
 
-    this.inputValue = "";
+    this.pokeApiService.getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination).subscribe(res => {
+      const results = res.results;
 
-    if(this.currentPage == 1){
-      return;
-    }
+     this.listPokemons.push(...results);
 
-    if(this.currentPage > 1){
-      this.offSetMinPagination -= 6;
-      this.currentPage -= 1;
-      this.isLoading = true;
-      this.getPokemonPagination();
-    }
-  }
-
-  nextPagination(){
-    this.inputValue = "";
-
-    if(this.currentPage < this.totalPagePokemons){
-      this.offSetMinPagination += 6;
-      this.currentPage += 1;
-      this.isLoading = true;
-      this.getPokemonPagination();
-    }
-  }
-
-getPokemonPagination(){
-      this.pokeApiService.getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination).subscribe((res) => {
-      this.resultsPagination = res.results;
-      this.listPokemons = res.results;
-
-      setTimeout(() => this.isLoading = false, 500)
     })
   }
+
 }

@@ -84,15 +84,9 @@
         </ng-template>
       </div>
     </div>
-    <div *ngIf="!isLoading && inputValue == ''" class="container-pagination">
-      <button [class.button-desactive]="currentPage == 1" (click)="previousPagination()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
-        Anterior
-      </button>
-      <button class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
-        {{currentPage}}
-      </button>
-      <button [class.button-desactive]="currentPage == totalPagePokemons" (click)="nextPagination()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
-        Próximo
+    <div class="container-pagination">
+      <button (click)="getMorePokemon()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
+        Carregar mais pokemons...
       </button>
     </div>
   </section>
