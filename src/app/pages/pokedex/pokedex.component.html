@@ -75,7 +75,7 @@
       </div>
     </div>
     <div [ngClass]="{ active: isModalOpen }" class="pokemons-details-modal">
-      <div class="pokemon-modal">
+      <div [class.animation-down]="isModalOpen" class="pokemon-modal">
         <div *ngIf="isLoadingModal; else modalSucess" class="o-pokeball u-bounce"></div>
         <ng-template #modalSucess>
           <div class="close-modal" (click)="closeModalContainer()">&times;</div>
@@ -84,7 +84,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="container-pagination" *ngIf="inputValue == ''">
+    <div class="container-pagination" *ngIf="inputValue == '' && isButtonMoreShow">
       <button (click)="getMorePokemon()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
         <p *ngIf="!isLoadingSpinner">Carregar mais pokemons...</p>
         <span *ngIf="isLoadingSpinner" class="loader"></span>

@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, Subject , debounceTime} from 'rxjs';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Subscription, Subject} from 'rxjs';
 import { PokeApiService } from 'src/app/services/poke-api.service';
 
 @Component({
@@ -8,6 +8,7 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
   styleUrls: ['./pokedex.component.scss'],
 })
 export class PokedexComponent implements OnInit, OnDestroy {
+
   unSubs: Subscription[] = [];
 
   debounce: Subject<string> = new Subject<string>();
@@ -46,11 +47,12 @@ export class PokedexComponent implements OnInit, OnDestroy {
   offSetMinPagination: number = 0;
   offSetMaxPagination: number = 6;
 
-  constructor(private pokeApiService: PokeApiService) {}
+  constructor(private pokeApiService: PokeApiService,private el: ElementRef) {}
 
   isModalOpen: boolean = false;
   isDarkTheme: boolean = false;
   isMenuTypeOpen: boolean = false;
+  isButtonMoreShow: boolean = true;
 
   ngOnInit(): void {
     this.getAllPokemon();
@@ -96,11 +98,14 @@ export class PokedexComponent implements OnInit, OnDestroy {
 
   closeModalContainer() {
     this.isModalOpen = false;
+    this.el.nativeElement.closest('body').style.overflowY = 'scroll'
   }
 
   openDetailsPokemon(e: any) {
     const idPokemon = String(e.status.id);
     this.isModalOpen = true;
+    this.el.nativeElement.closest('body').style.overflow = 'hidden'
+
     const sub = this.pokeApiService
       .getPokemonInfor(idPokemon)
       .subscribe((pokemon) => {
@@ -118,7 +123,6 @@ export class PokedexComponent implements OnInit, OnDestroy {
 
         this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
           let inputFormat = value.toLocaleLowerCase();
-
           return pokemon.name.includes(inputFormat);
         });
 
@@ -213,24 +217,48 @@ export class PokedexComponent implements OnInit, OnDestroy {
   }
 
   filterPokemonCheckbox(e: any) {
+    this.isButtonMoreShow = false;
     let itemChecked = e.target.checked;
     let itemName = e.target.name;
+    let newPokeFilterArr: any[] = [];
 
     if (itemChecked) {
-      this.itemsMarked = [...this.itemsMarked, itemName];
+
+      this.itemsMarked = [...this.itemsMarked, itemName]
 
       this.itemsMarked.forEach(type => {
-      this.listPokemons = this.listPokemonsAll.filter(pokemon => {
-          const pokeType = pokemon.status.types[0].type.name;
-          console.log(type)
-          return pokeType == type
+        this.listPokemonsAll.filter(pokemon => {
+          let typePoke = pokemon.status.types[0].type.name;
+          let secondTypePoke = pokemon.status.types[1]?.type.name;
+
+          if(type == typePoke || type == secondTypePoke){
+            newPokeFilterArr.push(pokemon)
+          }
         })
       })
 
+      this.listPokemons = newPokeFilterArr;
 
     } else {
       this.itemsMarked = this.itemsMarked.filter((name) => name !== itemName);
+
+      this.itemsMarked.forEach(type => {
+        this.listPokemonsAll.filter(pokemon => {
+          let typePoke = pokemon.status.types[0].type.name;
+          let secondTypePoke = pokemon.status.types[1]?.type.name;
+
+          if(type == typePoke || type == secondTypePoke){
+            newPokeFilterArr.push(pokemon)
+          }
+        })
+      })
+
+      this.listPokemons = newPokeFilterArr;
+    }
+
+    if(!this.itemsMarked.length){
       this.listPokemons = this.listPokemonsPagination;
+      this.isButtonMoreShow = true;
     }
   }
 

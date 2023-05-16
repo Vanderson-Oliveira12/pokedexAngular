@@ -323,6 +323,12 @@ main {
       max-height: 600px;
       border-radius: 1.6rem;
       display: flex;
+      transform: translateY(-100px);
+      transition: 1s ease;
+    }
+
+    .animation-down{
+      transform: translateY(0);
     }
 
     .pokemon-modal-img{
@@ -535,3 +541,5 @@ main{
     75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
     100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
+
+
