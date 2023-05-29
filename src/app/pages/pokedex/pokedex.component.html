@@ -74,13 +74,25 @@
         </div>
       </div>
     </div>
-    <div [ngClass]="{ active: isModalOpen }" class="pokemons-details-modal">
+    <div (click)="whichElementClicked($event)" [ngClass]="{ active: isModalOpen }" class="pokemons-details-modal">
       <div [class.animation-down]="isModalOpen" class="pokemon-modal">
         <div *ngIf="isLoadingModal; else modalSucess" class="o-pokeball u-bounce"></div>
         <ng-template #modalSucess>
           <div class="close-modal" (click)="closeModalContainer()">&times;</div>
-            <div [style]="{background: pokemonSelected?.color?.name}" class="pokemon-modal-img"></div>
-            <div class="pokemon-modal-status"></div>
+            <div class="pokemon-modal-img">
+              <h2>{{pokemonSelected?.details.name | firstUpperCase}}</h2>
+              <img src={{pokemonSelected?.status?.sprites?.other?.dream_world?.front_default}} [alt]="pokemonSelected?.details.name">
+            </div>
+            <div class="pokemon-modal-status">
+              <div class="status-column">
+                <div class="line-item" *ngFor="let status of pokemonSelected.status.stats">
+                  <p>{{status.stat.name | firstUpperCase}}</p>
+                  <div class="line">
+                    <div [style.width]="status.base_stat + '%'" class="line-value"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </ng-template>
       </div>
     </div>

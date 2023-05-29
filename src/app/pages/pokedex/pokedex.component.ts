@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { PokeApiService } from 'src/app/services/poke-api.service';
 import { SubSink } from 'subsink';
 
@@ -103,18 +103,23 @@ export class PokedexComponent implements OnInit, OnDestroy {
   closeModalContainer() {
     this.isModalOpen = false;
     this.el.nativeElement.closest('body').style.overflowY = 'scroll';
+    this.isLoadingModal = true;
   }
 
-  openDetailsPokemon(e: any) {
-    const idPokemon = String(e.status.id);
+  openDetailsPokemon(pokemonSelected: any) {
+    const idPokemon = String(pokemonSelected.status.id);
     this.isModalOpen = true;
     this.el.nativeElement.closest('body').style.overflow = 'hidden';
+
+    this.pokemonSelected = {
+      ...pokemonSelected
+    }
 
     let sub = this.pokeApiService
       .getPokemonInfor(idPokemon)
       .subscribe((pokemon) => {
         this.isLoadingModal = false;
-        this.pokemonSelected = pokemon;
+        this.pokemonSelected.details = pokemon;
       });
 
     this.subs.add(sub);
@@ -279,5 +284,16 @@ export class PokedexComponent implements OnInit, OnDestroy {
       });
 
     this.subs.add(sub);
+  }
+
+  whichElementClicked(e: Event){
+    let elementClicked = e.target as HTMLDivElement;
+    let elementClassRef = "pokemons-details-modal"
+
+    if(elementClicked.classList.contains(elementClassRef)){
+      this.closeModalContainer();
+    } else {
+      return;
+    }
   }
 }

@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { PokedexRoutingModule } from './pokedex-routing.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     CommonModule,
     PokedexRoutingModule

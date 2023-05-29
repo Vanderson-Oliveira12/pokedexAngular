@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavComponent } from './components/nav/nav.component';
 import { PokedexComponent } from './pages/pokedex/pokedex.component';
+import { FirstUpperCasePipe } from './pipes/first-upper-case.pipe';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavComponent, PokedexComponent],
+  declarations: [AppComponent, HomeComponent, NavComponent, PokedexComponent, FirstUpperCasePipe],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
