@@ -84,7 +84,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="container-pagination" *ngIf="inputValue == '' && isButtonMoreShow">
+    <div class="container-pagination" *ngIf="inputValue == '' && isButtonMoreShow && !isLoading">
       <button (click)="getMorePokemon()" class="pagination-button" [class.button-light]="!isDarkTheme" [class.button-dark]="isDarkTheme">
         <p *ngIf="!isLoadingSpinner">Carregar mais pokemons...</p>
         <span *ngIf="isLoadingSpinner" class="loader"></span>

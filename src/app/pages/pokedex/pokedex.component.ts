@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, Subject} from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { PokeApiService } from 'src/app/services/poke-api.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-pokedex',
@@ -8,8 +9,7 @@ import { PokeApiService } from 'src/app/services/poke-api.service';
   styleUrls: ['./pokedex.component.scss'],
 })
 export class PokedexComponent implements OnInit, OnDestroy {
-
-  unSubs: Subscription[] = [];
+  private subs = new SubSink();
 
   debounce: Subject<string> = new Subject<string>();
   inputValue: string = '';
@@ -47,7 +47,7 @@ export class PokedexComponent implements OnInit, OnDestroy {
   offSetMinPagination: number = 0;
   offSetMaxPagination: number = 6;
 
-  constructor(private pokeApiService: PokeApiService,private el: ElementRef) {}
+  constructor(private pokeApiService: PokeApiService, private el: ElementRef) {}
 
   isModalOpen: boolean = false;
   isDarkTheme: boolean = false;
@@ -70,14 +70,16 @@ export class PokedexComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unSubs.forEach((sub) => sub.unsubscribe);
+    this.subs.unsubscribe();
   }
 
   getAllPokemon() {
-    this.pokeApiService.getPokemons().subscribe((res) => {
+    let sub = this.pokeApiService.getPokemons().subscribe((res) => {
       let results = res.results;
       this.listPokemonsAll = results;
     });
+
+    this.subs.add(sub);
   }
 
   getPokemonList() {
@@ -86,7 +88,7 @@ export class PokedexComponent implements OnInit, OnDestroy {
     const offSet = this.offSetMinPagination;
     const offSetMax = this.offSetMaxPagination;
 
-    this.pokeApiService
+    let sub = this.pokeApiService
       .getPokemonsPagination(offSet, offSetMax)
       .subscribe((res) => {
         const results = res.results;
@@ -94,42 +96,41 @@ export class PokedexComponent implements OnInit, OnDestroy {
         this.listPokemons = results;
         setTimeout(() => (this.isLoading = false), 1000);
       });
+
+    this.subs.add(sub);
   }
 
   closeModalContainer() {
     this.isModalOpen = false;
-    this.el.nativeElement.closest('body').style.overflowY = 'scroll'
+    this.el.nativeElement.closest('body').style.overflowY = 'scroll';
   }
 
   openDetailsPokemon(e: any) {
     const idPokemon = String(e.status.id);
     this.isModalOpen = true;
-    this.el.nativeElement.closest('body').style.overflow = 'hidden'
+    this.el.nativeElement.closest('body').style.overflow = 'hidden';
 
-    const sub = this.pokeApiService
+    let sub = this.pokeApiService
       .getPokemonInfor(idPokemon)
       .subscribe((pokemon) => {
         this.isLoadingModal = false;
         this.pokemonSelected = pokemon;
       });
 
-    this.unSubs.push(sub);
+    this.subs.add(sub);
   }
 
   filterPokemonPerName(e: any) {
     const value = this.inputValue;
 
-      if (value !== '') {
-
-        this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
-          let inputFormat = value.toLocaleLowerCase();
-          return pokemon.name.includes(inputFormat);
-        });
-
-      } else {
-
-        this.listPokemons = this.listPokemonsPagination;
-      }
+    if (value !== '') {
+      this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
+        let inputFormat = value.toLocaleLowerCase();
+        return pokemon.name.includes(inputFormat);
+      });
+    } else {
+      this.listPokemons = this.listPokemonsPagination;
+    }
   }
 
   typePokemonConvertToPortugues(typePokemon: string): string {
@@ -223,40 +224,38 @@ export class PokedexComponent implements OnInit, OnDestroy {
     let newPokeFilterArr: any[] = [];
 
     if (itemChecked) {
+      this.itemsMarked = [...this.itemsMarked, itemName];
 
-      this.itemsMarked = [...this.itemsMarked, itemName]
-
-      this.itemsMarked.forEach(type => {
-        this.listPokemonsAll.filter(pokemon => {
+      this.itemsMarked.forEach((type) => {
+        this.listPokemonsAll.filter((pokemon) => {
           let typePoke = pokemon.status.types[0].type.name;
           let secondTypePoke = pokemon.status.types[1]?.type.name;
 
-          if(type == typePoke || type == secondTypePoke){
-            newPokeFilterArr.push(pokemon)
+          if (type == typePoke || type == secondTypePoke) {
+            newPokeFilterArr.push(pokemon);
           }
-        })
-      })
+        });
+      });
 
       this.listPokemons = newPokeFilterArr;
-
     } else {
       this.itemsMarked = this.itemsMarked.filter((name) => name !== itemName);
 
-      this.itemsMarked.forEach(type => {
-        this.listPokemonsAll.filter(pokemon => {
+      this.itemsMarked.forEach((type) => {
+        this.listPokemonsAll.filter((pokemon) => {
           let typePoke = pokemon.status.types[0].type.name;
           let secondTypePoke = pokemon.status.types[1]?.type.name;
 
-          if(type == typePoke || type == secondTypePoke){
-            newPokeFilterArr.push(pokemon)
+          if (type == typePoke || type == secondTypePoke) {
+            newPokeFilterArr.push(pokemon);
           }
-        })
-      })
+        });
+      });
 
       this.listPokemons = newPokeFilterArr;
     }
 
-    if(!this.itemsMarked.length){
+    if (!this.itemsMarked.length) {
       this.listPokemons = this.listPokemonsPagination;
       this.isButtonMoreShow = true;
     }
@@ -271,13 +270,14 @@ export class PokedexComponent implements OnInit, OnDestroy {
     this.isLoadingSpinner = true;
     this.offSetMinPagination += 6;
 
-    this.pokeApiService
-    .getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination)
-    .subscribe((res) => {
-      const results = res.results;
-      this.listPokemons.push(...results);
-      this.isLoadingSpinner = false;
-    });
+    let sub = this.pokeApiService
+      .getPokemonsPagination(this.offSetMinPagination, this.offSetMaxPagination)
+      .subscribe((res) => {
+        const results = res.results;
+        this.listPokemons.push(...results);
+        this.isLoadingSpinner = false;
+      });
 
+    this.subs.add(sub);
   }
 }
