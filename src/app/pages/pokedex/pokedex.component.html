@@ -34,8 +34,11 @@
           <div
             class="container-pokemon-item"
             [ngClass]="{'bg-card-color': isDarkTheme}"
-            *ngFor="let pokemon of listPokemons"
+            *ngFor="let pokemon of listPokemons; let i = index"
             (click)="openDetailsPokemon(pokemon)"
+            (mouseover)="pokeIndexHover = i"
+            (mouseleave)="pokeIndexHover = -1"
+            [@pokeHover]="pokeIndexHover === i ? 'end' : 'initial'"
           >
             <div class="pokemon-infor">
               <p>
@@ -68,7 +71,7 @@
             </div>
           </div>
         </ng-template>
-        <div *ngIf="!isLoading && listPokemons.length === 0" class="no-results">
+        <div *ngIf="!isLoading && !listPokemons?.length" class="no-results">
           <h3>Oops... parece que pesquisa não retornou resultados!</h3>
           <img src="assets/no results.png" alt="Sem resultados!" />
         </div>

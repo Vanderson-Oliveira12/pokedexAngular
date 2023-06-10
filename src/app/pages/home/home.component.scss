@@ -47,6 +47,20 @@ header {
   align-items: flex-start;
   gap: 6.4rem;
 
+  h1{
+    position: relative;
+  }
+
+  h1::after{
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 25px;
+    color: #212121;
+    background-color: #212121;
+    animation: blink 1s ease infinite alternate;
+  }
+
   h2 {
     font-size: 1.8rem;
     line-height: 150%;
@@ -207,4 +221,14 @@ header {
   width: 80%;
   margin: 0 auto;
   font-size: 1.2rem;
+}
+
+@keyframes blink {
+  from{
+    opacity: 0;
+  }
+
+  to{
+    opacity: 1;
+  }
 }

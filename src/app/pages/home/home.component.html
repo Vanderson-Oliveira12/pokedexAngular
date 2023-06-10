@@ -2,7 +2,7 @@
   <app-nav></app-nav>
   <main class="header-container">
     <div class="header-content">
-      <h1>Encontre todos os seus Pokémon favorito</h1>
+      <h1>{{ title }}</h1>
       <h2>
         Explore o mundo dos Pokémons como nunca antes - A Pokedex mais completa
         do mercado, com informações detalhadas de todos os Pokémons existentes!
@@ -15,7 +15,7 @@
       <picture>
         <source srcset="assets/hero_mobile.svg" media="(max-width: 1023px)">
         <source srcset="assets/hero.svg" media="(min-width: 1024px)">
-        <img srcset="assets/hero.svg" alt="imagem Pikachu">
+        <img @pokemonImageShown srcset="assets/hero.svg" alt="imagem Pikachu">
       </picture>
     </div>
   </main>

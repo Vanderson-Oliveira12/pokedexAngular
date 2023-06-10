@@ -1,16 +1,22 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { cardHoverTrigger } from 'src/app/animations/animations';
 import { PokeApiService } from 'src/app/services/poke-api.service';
 import { SubSink } from 'subsink';
+
 
 @Component({
   selector: 'app-pokedex',
   templateUrl: './pokedex.component.html',
   styleUrls: ['./pokedex.component.scss'],
+  animations: [
+    cardHoverTrigger
+  ]
 })
 export class PokedexComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
+  pokeIndexHover: number = -1;
   debounce: Subject<string> = new Subject<string>();
   inputValue: string = '';
   isLoading: boolean = true;
@@ -127,12 +133,12 @@ export class PokedexComponent implements OnInit, OnDestroy {
 
   filterPokemonPerName(e: any) {
     const value = this.inputValue;
-
     if (value !== '') {
       this.listPokemons = this.listPokemonsAll.filter((pokemon) => {
         let inputFormat = value.toLocaleLowerCase();
         return pokemon.name.includes(inputFormat);
       });
+
     } else {
       this.listPokemons = this.listPokemonsPagination;
     }
