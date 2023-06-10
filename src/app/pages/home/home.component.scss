@@ -55,10 +55,36 @@ header {
     content: "";
     position: absolute;
     width: 3px;
-    height: 25px;
+    top: 25%;
+    height: 20px;
     color: #212121;
     background-color: #212121;
     animation: blink 1s ease infinite alternate;
+
+
+    @include medias.small{
+      top: auto;
+      bottom: 2px;
+    }
+
+    @include medias.small-medium{
+      top: auto;
+      bottom: 2px;
+    }
+
+    @include medias.medium{
+      top: auto;
+      bottom: 2px;
+    }
+
+    @include medias.medium-large{
+      top: auto;
+      bottom: 5px;
+    }
+
+    @include medias.large{
+      bottom: -5px;
+    }
   }
 
   h2 {
